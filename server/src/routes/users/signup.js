@@ -24,7 +24,6 @@ router.post("/", valid(validateSignup), async (req, res) => {
       _id: user._id,
       "first name": user.first,
       "last name": user.last,
-      date: user.date,
     },
   });
 });

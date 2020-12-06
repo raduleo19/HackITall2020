@@ -23,10 +23,11 @@ const UserSchema = new mongoose.Schema({
     min: 6,
     max: 256,
   },
-  date: {
-    type: Date,
-    default: Date.now,
+  favouriteTags: [String],
+  likedStories: {
+
   },
+
 });
 
 UserSchema.methods.hash = async function (password) {

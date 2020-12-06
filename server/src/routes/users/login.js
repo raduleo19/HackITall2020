@@ -4,7 +4,7 @@ const User = require("../../models/User");
 const valid = require("../../middleware/valid");
 const validateLogin = require("../../validation/login");
 
-// @route /api/auth/login
+// @route /api/users/login
 router.post("/", valid(validateLogin), async (req, res) => {
   // check if email exists
   const user = await User.findOne({ email: req.body.email });

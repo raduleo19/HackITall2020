@@ -22,7 +22,21 @@ app.use(cookieParser());
 app.use(compression());
 app.use("/api/user", require("./routes/users/index"));
 app.use("/api/topics", require("./routes/topics/index"));
+app.use("/api/stories", require("./routes/stories/index"));
 app.use(require("./middleware/error"));
+
+// var googleTrends = require('google-trends-api');
+// googleTrends.dailyTrends({
+//   geo: 'RO',
+// }, function(err, results) {
+//   if (err) {
+//     console.log(err);
+//   }else{
+//      var result = JSON.parse(results).default.trendingSearchesDays[1].trendingSearches;
+//      var result2 = result.map(a => a.title.query);
+//     console.log(result2);
+//   }
+// });
 
 // connect to DB
 mongoose
