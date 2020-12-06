@@ -24,7 +24,7 @@ router.post("/", valid(validateLogin), async (req, res) => {
   // for more info check www.npmjs.com/package/cookie#options-1
   res.cookie("token", token, { httpOnly: true });
   res.status(200).send({
-    message: "successfully signed in.",
+    email: user.email,
     token,
   });
 });

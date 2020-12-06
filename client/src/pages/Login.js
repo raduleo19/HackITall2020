@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Axios from "axios";
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import { Container as ContainerBase } from "components/misc/Layouts";
@@ -13,6 +13,7 @@ import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/log-in.svg
 import { Redirect, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux"
 import { loginUser } from "../_actions/user_actions"
+
 const Container = tw(ContainerBase)`min-h-screen bg-primary-900 text-white font-medium flex justify-center -m-8`;
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1`;
 const MainContainer = tw.div`lg:w-1/2 xl:w-5/12 p-6 sm:p-12`;
@@ -70,8 +71,14 @@ export default function ({
 }) {
   const dispatch = useDispatch();
 
-  const handleLogin = (params) => {
-    dispatch(loginUser)
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("")
+
+  const history = useHistory();
+  const handleLogin = (event) => {
+    event.preventDefault();
+    dispatch(loginUser({ email, password }));
+    history.push('/feed');
   }
   return (
     <AnimationRevealPage>
@@ -94,13 +101,10 @@ export default function ({
                     </SocialButton>
                   ))}
                 </SocialButtonsContainer>
-                <DividerTextContainer>
-                  <DividerText>Or Sign in with your e-mail</DividerText>
-                </DividerTextContainer>
-                <Form>
-                  <Input type="email" placeholder="Email" />
-                  <Input type="password" placeholder="Password" />
-                  <SubmitButton type="submit" onClick={handleLogin}>
+                <Form onSubmit={handleLogin}>
+                  <Input type="email" placeholder="Email" onChange={(e) => setemail(e.target.value)} />
+                  <Input type="password" placeholder="Password" onChange={(e) => setpassword(e.target.value)} />
+                  <SubmitButton type="submit">
                     <SubmitButtonIcon className="icon" />
                     <span className="text">{submitButtonText}</span>
                   </SubmitButton>
@@ -127,4 +131,3 @@ export default function ({
     </AnimationRevealPage>
   )
 }
-

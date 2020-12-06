@@ -111,14 +111,15 @@ import SimpleWithSideImage from "components/faqs/SimpleWithSideImage";
 import { NavLinks } from "components/headers/light";
 import ThreeColWithSideImageWithPrimaryBackground from "components/features/ThreeColWithSideImageWithPrimaryBackground";
 import ThreeColCenteredStatsPrimaryBackground from "components/features/ThreeColCenteredStatsPrimaryBackground";
+import history from "./history"
 
 export default function App() {
   // return <AnimationRevealPage disabled></AnimationRevealPage>;
   return (
     <Router>
-      <Switch>
+      <Switch history={history}>
         <Route default path="/login">
-          <Login />
+          <Login/>
         </Route>
         
         <Route exact path="/">

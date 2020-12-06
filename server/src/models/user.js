@@ -24,10 +24,7 @@ const UserSchema = new mongoose.Schema({
     max: 256,
   },
   favouriteTags: [String],
-  likedStories: {
-
-  },
-
+  likedStories: [String]
 });
 
 UserSchema.methods.hash = async function (password) {

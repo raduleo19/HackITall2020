@@ -5,7 +5,7 @@ import {
 
 export function loginUser(dataToSubmit) {
     console.log(dataToSubmit);
-    const request = axios.post(`localhost:5000/api/user/login`, "FUTUTI")
+    const request = axios.post(`http://localhost:5000/api/user/login`, dataToSubmit)
         .then(response => response.data);
 
     return {

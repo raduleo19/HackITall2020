@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import tw from "twin.macro";
 import styled from "styled-components";
@@ -9,6 +9,8 @@ import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/map-pin
 import { ReactComponent as StarIcon } from "feather-icons/dist/icons/star.svg";
 import { ReactComponent as ChevronLeftIcon } from "feather-icons/dist/icons/chevron-left.svg";
 import { ReactComponent as ChevronRightIcon } from "feather-icons/dist/icons/chevron-right.svg";
+import Axios from "axios";
+import { useSelector } from "react-redux";
 
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-16 lg:py-20`;
@@ -65,8 +67,23 @@ const IconContainer = styled.div`
 const Text = tw.div`ml-2 text-sm font-semibold text-gray-800`;
 
 const PrimaryButton = tw(PrimaryButtonBase)`mt-auto sm:text-lg rounded-none w-full rounded sm:rounded-none sm:rounded-br-4xl py-3 sm:py-6`;
-export default () => {
+
+
+
+
+export default function() {
   // useState is used instead of useRef below because we want to re-render when sliderRef becomes available (not null)
+
+  const [card, setcard] = useState([]);
+useEffect(() => {
+  Axios.get('http://localhost:5000/api/stories')
+  .then(response => {
+  setcard(response.data)
+  })
+}, []);
+
+  let user = useSelector(state => state.user);
+
   const [sliderRef, setSliderRef] = useState(null);
   const sliderSettings = {
     arrows: false,
@@ -89,32 +106,9 @@ export default () => {
   };
 
   /* Change this according to your needs */
-  const cards = [
-    {
-      imageSrc: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
-      title: "Recomand cartea Secretele succesului.",
-      description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-      rating: "14",
-    },
-    {
-      imageSrc: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
-      title: "Reteta tocanita de pui",
-      description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-      rating: "22",
-    },
-    {
-      imageSrc: "https://images.unsplash.com/photo-1549294413-26f195200c16?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
-      title: "Am iesit la plimbare cu bicicleta.",
-      description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-      rating: "4",
-    },
-    {
-      imageSrc: "https://images.unsplash.com/photo-1571770095004-6b61b1cf308a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
-      title: "Mi-am cumparat catelus.",
-      description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor noLorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-      rating: "12",
-    },
-  ]
+  
+  var cards = [];
+  card.forEach(a => cards.push({"imageSrc":a.img, "title":a.title, "description" : a.description, "rating":a.likes}));
 
   return (
     <Container>
@@ -140,7 +134,9 @@ export default () => {
                 </TitleReviewContainer>
                 <Description>{card.description}</Description>
               </TextInfo>
-              <PrimaryButton>Like</PrimaryButton>
+              <PrimaryButton onClick={() => {
+    Axios.get("http://localhost:5000/api/stories/" + card.title + "/" + user.loginSucces.email).then();
+  }}>Like</PrimaryButton>
             </Card>
           ))}
         </CardSlider>

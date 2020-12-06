@@ -23,7 +23,6 @@ var allowCrossDomain = function(req, res, next) {
 }
 
 app.all('/*', allowCrossDomain);
-
 // routes and middleware
 app.use(express.json({ limit: "10kb" }));
 app.use(limiter);

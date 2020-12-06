@@ -5,25 +5,23 @@ router.get('/', async (req, res) => {
     const users = await User.find();
     const tags = users.map(a => a.favouriteTags);
 
-    var freq = {};
-    for (var i = 0; i < tags.length; i++) {
-        var tag = tags[i];
-        if (freq[tag]) {
-           freq[tag]++;
-        } else {
-           freq[tag] = 1;
-        }
-    }
+    // var freq = {};
+    // tags.forEach(element => {
+    //     if (!freq[element]) {
+    //         freq[element] = 0;
+    //     }
+    //     freq[element] += 1;
+    // });
 
-    var items = Object.keys(freq).map(function(key) {
-        return [key, dict[key]];
-      });
+    // var items = Object.keys(freq).map(function(key) {
+    //     return [key, freq[key]];
+    //   });
 
-    items.sort(function(first, second) {
-        return second[1] - first[1];
-    });
+    // items.sort(function(first, second) {
+    //     return second[1] - first[1];
+    // });
 
-    res.send(items.slice(0, 5));
+    res.send(tags.slice(0, 6));
 });
 
 module.exports = router;

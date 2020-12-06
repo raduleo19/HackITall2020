@@ -14,6 +14,8 @@ import CustomizeIconImage from "images/customize-icon.svg";
 import FastIconImage from "images/fast-icon.svg";
 import ReliableIconImage from "images/reliable-icon.svg";
 import SimpleIconImage from "images/simple-icon.svg";
+import Axios from "axios";
+import { useState, useEffect } from "react";
 
 const Container = tw.div`relative bg-primary-900 -mx-8 px-8 text-gray-100`;
 
@@ -54,7 +56,7 @@ const Card = styled.div`
 
 export default ({
   cards = null,
-  heading = "Amazing Features",
+  heading = "Matching Topics",
   subheading = "",
   description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 }) => {
@@ -66,18 +68,16 @@ export default ({
    *  If a key for a particular card is not provided, a default value is used
    */
 
-  const defaultCards = [
-    {
-      imageSrc: ShieldIconImage,
-      title: "Secure",
-      description: "We strictly only deal with vendors that provide top notch security infrastructure."
-    },
-    { imageSrc: SupportIconImage, title: "24/7 Support" },
-    { imageSrc: CustomizeIconImage, title: "Customizable" },
-    { imageSrc: ReliableIconImage, title: "Reliable" },
-    { imageSrc: FastIconImage, title: "Fast" },
-    { imageSrc: SimpleIconImage, title: "Easy" }
-  ];
+  const [topic, settopic] = useState([]);
+  useEffect(() => {
+    Axios.get('http://localhost:5000/api/topics')
+    .then(response => {
+    settopic(response.data)
+    })
+  }, []);
+
+  var defaultCards = [];
+  topic.forEach(a => defaultCards.push({"imageSrc": SupportIconImage, "title":a.title}));
 
   if (!cards) cards = defaultCards;
 
@@ -86,7 +86,6 @@ export default ({
       <ThreeColumnContainer>
         {subheading && <Subheading>{subheading}</Subheading>}
         <Heading>{heading}</Heading>
-        {description && <Description>{description}</Description>}
         <VerticalSpacer />
         {cards.map((card, i) => (
           <Column key={i}>
