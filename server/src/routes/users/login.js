@@ -6,6 +6,7 @@ const validateLogin = require("../../validation/login");
 
 // @route /api/users/login
 router.post("/", valid(validateLogin), async (req, res) => {
+  console.log("A CERUT");
   // check if email exists
   const user = await User.findOne({ email: req.body.email });
   if (!user) {

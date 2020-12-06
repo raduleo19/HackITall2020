@@ -4,13 +4,13 @@ const User = require("../../models/User");
 const valid = require("../../middleware/valid");
 const validateSignup = require("../../validation/signup");
 
-// @route /api/auth/signup
 router.post("/", valid(validateSignup), async (req, res) => {
   // check if email already exists
   let user = await User.findOne({ email: req.body.email });
   if (user) {
     return res.status(400).send("user with this email already exists.");
   }
+  
   // create user object
   user = new User(req.body);
   // Hash the password
